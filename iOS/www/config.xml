@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="ホタル" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>ホタル</name>
+    <description>
+    </description>
+    <author>
+    </author>
+    <icon height="512" src="res/icon/cordova_512.png" width="512" />
+    <icon gap:platform="ios" height="144" src="res/icon/cordova_ios_144.png" width="144" />
+    <gap:splash gap:platform="ios" height="748" src="res/screen/ipad_landscape.png" width="1024" />
+    <gap:splash gap:platform="ios" height="1004" src="res/screen/ipad_portrait.png" width="768" />
+    <gap:splash gap:platform="ios" height="1496" src="res/screen/ipad_retina_landscape.png" width="2048" />
+    <gap:splash gap:platform="ios" height="2008" src="res/screen/ipad_retina_portrait.png" width="1536" />
+    <gap:splash gap:platform="ios" height="480" src="res/screen/iphone_portrait.png" width="320" />
+    <gap:splash gap:platform="ios" height="960" src="res/screen/iphone_retina_portrait.png" width="640" />
+    <feature name="http://api.phonegap.com/1.0/device" />
+    <preference name="phonegap-version" value="1.9.0" />
+    <preference name="orientation" value="default" />
+    <preference name="target-device" value="universal" />
+    <preference name="fullscreen" value="false" />
+    <access origin="*" />
+</widget>
