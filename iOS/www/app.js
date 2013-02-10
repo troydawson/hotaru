@@ -18,7 +18,6 @@ var app = {
 		ctx.fillRect(0,0,app_canvas.width, app_canvas.height);
 
 		document.body.appendChild(app_canvas);
-
 	}
 };
 
