@@ -13,7 +13,7 @@ var app = {
 		
 		var ctx = app_canvas.getContext('2d');
 		
-		ctx.fillStyle = '#FF0000';
+		ctx.fillStyle = '#DEDEC0';
 
 		ctx.fillRect(0,0,app_canvas.width, app_canvas.height);
 

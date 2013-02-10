@@ -30,7 +30,7 @@
 
 @implementation CDVConfigParser
 
-@synthesize pluginsDict, settings, whitelistHosts, startPage;
+@synthesize pluginsDict, settings, startPage;
 
 - (id)init
 {
@@ -38,7 +38,6 @@
     if (self != nil) {
         self.pluginsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
         self.settings = [[NSMutableDictionary alloc] initWithCapacity:4];
-        self.whitelistHosts = [[NSMutableArray alloc] initWithCapacity:1];
     }
     return self;
 }
@@ -49,8 +48,6 @@
         [settings setObject:[attributeDict objectForKey:@"value"] forKey:[attributeDict objectForKey:@"name"]];
     } else if ([elementName isEqualToString:@"plugin"]) {
         [pluginsDict setObject:[attributeDict objectForKey:@"value"] forKey:[attributeDict objectForKey:@"name"]];
-    } else if ([elementName isEqualToString:@"access"]) {
-        [whitelistHosts addObject:[attributeDict objectForKey:@"origin"]];
     } else if ([elementName isEqualToString:@"content"]) {
         self.startPage = [attributeDict objectForKey:@"src"];
     }

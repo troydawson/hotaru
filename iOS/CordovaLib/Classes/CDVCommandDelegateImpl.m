@@ -44,10 +44,10 @@
     [directoryParts removeLastObject];
 
     NSString* directoryPartsJoined = [directoryParts componentsJoinedByString:@"/"];
-    NSString* directoryStr = _viewController.wwwFolderName;
+    NSString* directoryStr = _viewController.appFolderName;
 
     if ([directoryPartsJoined length] > 0) {
-        directoryStr = [NSString stringWithFormat:@"%@/%@", _viewController.wwwFolderName, [directoryParts componentsJoinedByString:@"/"]];
+        directoryStr = [NSString stringWithFormat:@"%@/%@", _viewController.appFolderName, [directoryParts componentsJoinedByString:@"/"]];
     }
 
     return [mainBundle pathForResource:filename ofType:@"" inDirectory:directoryStr];
