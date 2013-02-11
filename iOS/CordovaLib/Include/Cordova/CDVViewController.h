@@ -27,7 +27,8 @@
 @class CDVCommandQueue;
 @class CDVCommandDelegateImpl;
 
-@interface CDVViewController : UIViewController <UIWebViewDelegate, CDVScreenOrientationDelegate>{
+@interface CDVViewController : UIViewController <UIWebViewDelegate, CDVScreenOrientationDelegate>
+{
     @protected
     CDVCommandDelegateImpl* _commandDelegate;
     @protected
@@ -35,7 +36,7 @@
     NSString* _userAgent;
 }
 
-@property (nonatomic, strong) IBOutlet UIWebView* webView;
+@property (nonatomic, strong) UIWebView* webView;
 
 @property (nonatomic, readonly, strong) NSMutableDictionary* pluginObjects;
 @property (nonatomic, readonly, strong) NSDictionary* pluginsMap;
@@ -52,6 +53,8 @@
 @property (nonatomic, readonly, strong) CDVCommandQueue* commandQueue;
 @property (nonatomic, readonly, strong) CDVCommandDelegateImpl* commandDelegate;
 @property (nonatomic, readonly) NSString* userAgent;
+
++ (CDVViewController*) sharedController;
 
 + (NSDictionary*)getBundlePlist:(NSString*)plistName;
 + (NSString*)applicationDocumentsDirectory;

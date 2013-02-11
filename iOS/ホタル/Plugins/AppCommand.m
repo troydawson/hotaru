@@ -1,9 +1,20 @@
 #import "AppCommand.h"
 
 @interface AppCommand ()
+
+@property (assign) KeyboardStates state;
 @end
 
 @implementation AppCommand
+
+- (id) initWithWebView: (UIWebView*) theWebView
+{
+	self = [super initWithWebView: theWebView];
+	self.state = KeyboardOn;
+	return self;
+}
+
+- (KeyboardStates) keyboardState { return self.state; }
 
 - (void) command: (CDVInvokedUrlCommand*) command
 {
@@ -21,8 +32,13 @@
 	
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	
-//	NSLog(@"ok, touch");
+	NSLog(@"ok, touch");
 	
+	self.state = KeyboardOff;
+	
+	[self.viewController.webView resignFirstResponder];
+	
+//	[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
 }
 
 - (void) call: (NSDictionary*) command

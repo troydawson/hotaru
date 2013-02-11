@@ -26,7 +26,6 @@
 @end
 
 @implementation CDVPlugin
-@synthesize webView, settings, viewController, commandDelegate, hasPendingOperation;
 
 - (CDVPlugin*)initWithWebView:(UIWebView*)theWebView settings:(NSDictionary*)classSettings
 {
@@ -66,13 +65,6 @@
          */
     }
     return self;
-}
-
-- (void)dispose
-{
-    viewController = nil;
-    commandDelegate = nil;
-    webView = nil;
 }
 
 /*

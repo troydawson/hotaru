@@ -1,8 +1,8 @@
 var app = {
 
-	command: function(payload) {
+	command: function(action) {
 	
-		cordova.exec(null, function(e) { alert(e.toString) }, 'App Command', 'command', [{ action: 'test', value: 0xF00F }]);
+		cordova.exec(null, function(e) { alert(e.toString) }, 'App Command', 'command', [action]);
 	},
 	
 	touch: function(e) {
@@ -18,6 +18,8 @@ var app = {
 		
 		app.box.style.left = touch.pageX+'px';
 		app.box.style.top = touch.pageY+'px';
+
+		if (touch.pageY < 200) app.command({ action: 'keyboard', value: 'off' });
 	},
 	
 	down: function(e) {
@@ -57,7 +59,6 @@ var app = {
 		for (var i = 0; i < 8; i++)
 			$('<div/>').addClass('match').css({ top: (10+Math.floor(i/2)*60)+'px', left: (3+(i%2)*160)+'px' }).appendTo('body')
 
-		document.addEventListener('touchstart', function(e) { app.command('touch!') }, false);
 		document.addEventListener('touchstart', function(e) { app.touch(e) }, false);
 		document.addEventListener('touchmove', function(e) { app.touch(e) }, false);
 

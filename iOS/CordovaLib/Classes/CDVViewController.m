@@ -31,6 +31,8 @@
 
 - (id) init { self = [super initWithFrame: CGRectMake(0,0,320,120)]; return self; }
 
+- (BOOL) MyKeyboardView { return YES; }
+
 - (void) drawRect: (CGRect) rect
 {
 	[[UIColor redColor] setFill];
@@ -102,10 +104,16 @@
 	return YES;
 	
 }
+
+- (BOOL) canResignFirstResponder
+{
+	AppCommand *app = (AppCommand*) [CDVViewController.sharedController getCommandInstance: @"App Command"];
+
+	return app.keyboardState == KeyboardOff;
+}
+
 - (BOOL) canBecomeFirstResponder
 {
-	return NO; //? this isn;t working -- tapping off of the keyboard puts it away.
-	
 	KeyboardView *keyboard_view = [KeyboardView new];
 	
 	keyboard_view.view_controller = (CDVViewController*) self.viewController;
@@ -115,6 +123,11 @@
 	[self reloadInputViews];
 
     return YES;
+}
+
+- (BOOL) resignFirstResponder
+{	
+	return [super resignFirstResponder];
 }
 
 @end
@@ -138,6 +151,8 @@
 
 @end
 
+static CDVViewController *sharedInstance;
+
 @implementation CDVViewController
 
 @synthesize webView, supportedOrientations;
@@ -150,7 +165,8 @@
 
 - (void)__init
 {
-    if ((self != nil) && !self.initialized) {
+    if ((self != nil) && !self.initialized)
+	{
         _commandQueue = [[CDVCommandQueue alloc] initWithViewController:self];
         _commandDelegate = [[CDVCommandDelegateImpl alloc] initWithViewController:self];
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -169,18 +185,20 @@
                                                      name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:CDVPluginHandleOpenURLNotification object:nil];
 
-        // read from UISupportedInterfaceOrientations (or UISupportedInterfaceOrientations~iPad, if its iPad) from -Info.plist
         self.supportedOrientations = [self parseInterfaceOrientations:
             [[[NSBundle mainBundle] infoDictionary] objectForKey:@"UISupportedInterfaceOrientations"]];
 
         [self printMultitaskingInfo];
-        [self printDeprecationNotice];
+
         self.initialized = YES;
 
-        // load config.xml settings
         [self loadSettings];
+		
+		sharedInstance = self;
     }
 }
+
++ (CDVViewController*) sharedController { return sharedInstance; }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
 {
@@ -194,15 +212,6 @@
     self = [super init];
     [self __init];
     return self;
-}
-
-- (void)printDeprecationNotice
-{
-    if (!IsAtLeastiOSVersion(@"5.0")) {
-        NSLog(@"CRITICAL: For Cordova 2.0, you will need to upgrade to at least iOS 5.0 or greater. Your current version of iOS is %@.",
-            [[UIDevice currentDevice] systemVersion]
-            );
-    }
 }
 
 - (void)printMultitaskingInfo
@@ -643,23 +652,6 @@
     [self.commandDelegate evalJs:jsString];
 }
 
-+ (NSString*)resolveImageResource:(NSString*)resource
-{
-    NSString* systemVersion = [[UIDevice currentDevice] systemVersion];
-    BOOL isLessThaniOS4 = ([systemVersion compare:@"4.0" options:NSNumericSearch] == NSOrderedAscending);
-
-    // the iPad image (nor retina) differentiation code was not in 3.x, and we have to explicitly set the path
-    if (isLessThaniOS4) {
-        if (CDV_IsIPad()) {
-            return [NSString stringWithFormat:@"%@~ipad.png", resource];
-        } else {
-            return [NSString stringWithFormat:@"%@.png", resource];
-        }
-    }
-
-    return resource;
-}
-
 + (NSString*)applicationDocumentsDirectory
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -735,7 +727,7 @@
         orientedLaunchImageFile = launchImageFile;
     }
 
-    launchImage = [UIImage imageNamed:[[self class] resolveImageResource:orientedLaunchImageFile]];
+    launchImage = [UIImage imageNamed: orientedLaunchImageFile];
     if (launchImage == nil) {
         NSLog(@"WARNING: Splash-screen image '%@' was not found. Orientation: %d, iPad: %d", orientedLaunchImageFile, deviceOrientation, CDV_IsIPad());
     }
