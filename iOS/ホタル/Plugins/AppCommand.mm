@@ -1,5 +1,3 @@
-#import <Cordova/CDV.h>
-
 #import "AppCommand.h"
 
 @interface AppCommand ()
@@ -23,6 +21,13 @@
 	
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	
+//	NSLog(@"ok, touch");
+	
+}
+
+- (void) call: (NSDictionary*) command
+{
+	NSLog(@"AppCommand received: %@", [command objectForKey: @"action"]);
 }
 
 @end

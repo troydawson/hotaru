@@ -58,11 +58,11 @@ var app = {
 			$('<div/>').addClass('match').css({ top: (10+Math.floor(i/2)*60)+'px', left: (3+(i%2)*160)+'px' }).appendTo('body')
 
 		document.addEventListener('touchstart', function(e) { app.command('touch!') }, false);
-//		document.addEventListener('touchstart', function(e) { app.touch(e) }, false);
-//		document.addEventListener('touchmove', function(e) { app.touch(e) }, false);
+		document.addEventListener('touchstart', function(e) { app.touch(e) }, false);
+		document.addEventListener('touchmove', function(e) { app.touch(e) }, false);
 
-//		document.addEventListener('touchstart', function(e) { app.down(e) }, false);
-//		document.addEventListener('touchend', function(e) { app.up(e) }, false);
+		document.addEventListener('touchstart', function(e) { app.down(e) }, false);
+		document.addEventListener('touchend', function(e) { app.up(e) }, false);
 
 	}
 };

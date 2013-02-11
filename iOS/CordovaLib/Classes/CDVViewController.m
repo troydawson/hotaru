@@ -3,10 +3,28 @@
 #import "CDVCommandDelegateImpl.h"
 #import "CDVConfigParser.h"
 #import "CDVUserAgentUtil.h"
+#import "../../ホタル/Plugins/AppCommand.h"
+
+@interface UIView (FindViewController)
+- (UIViewController*) viewController;
+@end
+
+@implementation UIView (FindViewController)
+
+- (UIViewController*) viewController
+{
+	for (UIView *view = self; view != nil; view = view.superview)
+		if ([view.nextResponder isKindOfClass: [UIViewController class]])
+			return (UIViewController*) view.nextResponder;
+        
+    return nil;
+}
+
+@end
+
 
 @interface KeyboardView : UIView
-{
-}
+@property (assign, nonatomic) CDVViewController *view_controller;
 @end
 
 @implementation KeyboardView
@@ -23,7 +41,22 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	NSLog(@"touch began");
-	//	- (id)getCommandInstance:(NSString*)pluginName
+	
+	if (self.view_controller == nil)
+	{
+		NSLog(@"error -- view controller not found!");
+		return;
+	}
+	
+	AppCommand *app = (AppCommand*) [self.view_controller getCommandInstance: @"App Command"];
+	
+	if (app == nil)
+	{
+		NSLog(@"error -- App plugin not found!");
+		return;
+	}
+		
+	[app call: @{ @"action" : @"keyboard touches!" }];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -71,7 +104,14 @@
 }
 - (BOOL) canBecomeFirstResponder
 {
-	self.inputView = [KeyboardView new];
+	return NO; //? this isn;t working -- tapping off of the keyboard puts it away.
+	
+	KeyboardView *keyboard_view = [KeyboardView new];
+	
+	keyboard_view.view_controller = (CDVViewController*) self.viewController;
+
+	self.inputView = keyboard_view;
+	
 	[self reloadInputViews];
 
     return YES;
