@@ -1,16 +1,18 @@
-/********* Echo.m Cordova Plugin Implementation *******/
-
 #import <Cordova/CDV.h>
+
 #import "AppCommand.h"
+
+@interface AppCommand ()
+@end
 
 @implementation AppCommand
 
 - (void) command: (CDVInvokedUrlCommand*) command
 {
     CDVPluginResult *pluginResult = nil;
-    NSString *payload = [command.arguments objectAtIndex:0];
+    NSDictionary *action = [command.arguments objectAtIndex:0];
 	
-    if (payload != nil && payload.length > 0)
+    if (action != nil)
 	{
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"OK"];
     }
@@ -21,7 +23,6 @@
 	
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	
-	NSLog(@"app command: %@", payload);
 }
 
 @end

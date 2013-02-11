@@ -2,7 +2,7 @@ var app = {
 
 	command: function(payload) {
 	
-		cordova.exec(function(e) { alert('OK: '+ e) }, function(e) { alert(e.toString) }, 'App Command', 'command', [payload]);
+		cordova.exec(null, function(e) { alert(e.toString) }, 'App Command', 'command', [{ action: 'test', value: 0xF00F }]);
 	},
 	
 	touch: function(e) {

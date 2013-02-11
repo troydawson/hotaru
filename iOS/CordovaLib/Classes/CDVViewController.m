@@ -1,30 +1,83 @@
-/*
- Licensed to the Apache Software Foundation (ASF) under one
- or more contributor license agreements.  See the NOTICE file
- distributed with this work for additional information
- regarding copyright ownership.  The ASF licenses this file
- to you under the Apache License, Version 2.0 (the
- "License"); you may not use this file except in compliance
- with the License.  You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing,
- software distributed under the License is distributed on an
- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- KIND, either express or implied.  See the License for the
- specific language governing permissions and limitations
- under the License.
- */
-
-#import <objc/message.h>
 #import "CDV.h"
 #import "CDVCommandQueue.h"
 #import "CDVCommandDelegateImpl.h"
 #import "CDVConfigParser.h"
 #import "CDVUserAgentUtil.h"
 
-#define degreesToRadian(x) (M_PI * (x) / 180.0)
+@interface KeyboardView : UIView
+{
+}
+@end
+
+@implementation KeyboardView
+
+- (id) init { self = [super initWithFrame: CGRectMake(0,0,320,120)]; return self; }
+
+- (void) drawRect: (CGRect) rect
+{
+	[[UIColor redColor] setFill];
+	
+	[[UIBezierPath bezierPathWithOvalInRect: self.bounds] fill];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	NSLog(@"touch began");
+	//	- (id)getCommandInstance:(NSString*)pluginName
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	
+}
+
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	
+}
+
+
+
+@end
+
+@interface CordovaWebView : UIWebView <UIKeyInput>
+
+@property (strong) UIView *inputView;
+
+@end
+
+@implementation CordovaWebView
+
+- (void) insertText: (NSString*) text
+{
+	NSLog(@"text = %@", text);
+}
+
+- (void) deleteBackward
+{
+    // Handle the delete key
+}
+
+- (BOOL) hasText
+{
+	return YES;
+	
+}
+- (BOOL) canBecomeFirstResponder
+{
+	self.inputView = [KeyboardView new];
+	[self reloadInputViews];
+
+    return YES;
+}
+
+@end
 
 @interface CDVViewController () {
     NSInteger _userAgentLockToken;
@@ -355,7 +408,7 @@
 
 - (UIWebView*)newCordovaViewWithFrame:(CGRect)bounds
 {
-    return [[UIWebView alloc] initWithFrame:bounds];
+    return [[CordovaWebView alloc] initWithFrame:bounds];
 }
 
 - (NSString*)userAgent
@@ -608,7 +661,7 @@
             case UIDeviceOrientationLandscapeLeft: // this is where the home button is on the right (yeah, I know, confusing)
                 {
                     orientedLaunchImageFile = [NSString stringWithFormat:@"%@-Landscape", launchImageFile];
-                    startupImageTransform = CGAffineTransformMakeRotation(degreesToRadian(90));
+                    startupImageTransform = CGAffineTransformMakeRotation(M_PI_2);
                     center.x -= MIN(statusBarFrame.size.width, statusBarFrame.size.height) / 2;
                 }
                 break;
@@ -616,7 +669,7 @@
             case UIDeviceOrientationLandscapeRight: // this is where the home button is on the left (yeah, I know, confusing)
                 {
                     orientedLaunchImageFile = [NSString stringWithFormat:@"%@-Landscape", launchImageFile];
-                    startupImageTransform = CGAffineTransformMakeRotation(degreesToRadian(-90));
+                    startupImageTransform = CGAffineTransformMakeRotation(-M_PI_2);
                     center.x += MIN(statusBarFrame.size.width, statusBarFrame.size.height) / 2;
                 }
                 break;
@@ -624,7 +677,7 @@
             case UIDeviceOrientationPortraitUpsideDown:
                 {
                     orientedLaunchImageFile = [NSString stringWithFormat:@"%@-Portrait", launchImageFile];
-                    startupImageTransform = CGAffineTransformMakeRotation(degreesToRadian(180));
+                    startupImageTransform = CGAffineTransformMakeRotation(M_PI);
                     center.y -= MIN(statusBarFrame.size.width, statusBarFrame.size.height) / 2;
                 }
                 break;

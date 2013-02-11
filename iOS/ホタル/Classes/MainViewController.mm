@@ -1,36 +1,5 @@
 #import "MainViewController.h"
 
-@interface KeySucker : UIResponder <UIKeyInput>
-@end
-
-@implementation KeySucker
-
-- (void) insertText: (NSString*) text
-{
-	NSLog(@"text = %@", text);
-}
-
-- (void) deleteBackward
-{
-    // Handle the delete key
-}
-
-- (BOOL) hasText
-{
-	return YES;
-
-}
-- (BOOL) canBecomeFirstResponder
-{
-    return YES;
-}
-
-@end
-
-@interface MainViewController ()
-@property (retain, nonatomic) KeySucker *keysucker;
-@end
-
 @implementation MainViewController
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
@@ -43,8 +12,6 @@
         // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
     }
 	
-	self.keysucker = [KeySucker new];
-
     return self;
 }
 
@@ -74,16 +41,16 @@
 {
     // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
     // you can do so here.
-
-    [super viewWillAppear:animated];
 	
-	[self.keysucker becomeFirstResponder];
+    [super viewWillAppear:animated];
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+
+	[self.webView becomeFirstResponder];
 }
 
 - (void)viewDidUnload
