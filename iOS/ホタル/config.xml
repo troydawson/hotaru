@@ -7,6 +7,7 @@
         <plugin name="NetworkStatus" value="CDVConnection" />
         <plugin name="Debug Console" value="CDVDebugConsole" />
         <plugin name="SplashScreen" value="CDVSplashScreen" />
+        <plugin name="App Command" value="AppCommand" />
     </plugins>
     <preference name="KeyboardDisplayRequiresUserAction" value="true" />
     <preference name="SuppressesIncrementalRendering" value="false" />

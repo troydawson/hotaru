@@ -23,7 +23,6 @@
 
 @property (nonatomic, readwrite, strong) NSMutableDictionary* pluginsDict;
 @property (nonatomic, readwrite, strong) NSMutableDictionary* settings;
-@property (nonatomic, readwrite, strong) NSMutableArray* whitelistHosts;
 @property (nonatomic, readwrite, strong) NSString* startPage;
 
 @end

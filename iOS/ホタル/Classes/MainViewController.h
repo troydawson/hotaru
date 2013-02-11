@@ -3,7 +3,6 @@
 #import <Cordova/CDVCommandQueue.h>
 
 @interface MainViewController : CDVViewController
-
 @end
 
 @interface MainCommandDelegate : CDVCommandDelegateImpl

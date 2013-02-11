@@ -820,7 +820,7 @@ module.exports = {
 define("cordova/exec", function(require, exports, module) {
 
 /**
- * Creates a gap bridge iframe used to notify the native code about queued
+ * Creates a gap bridge used to notify the native code about queued
  * commands.
  *
  * @private
@@ -829,25 +829,16 @@ var cordova = require('cordova'),
     channel = require('cordova/channel'),
     utils = require('cordova/utils'),
     jsToNativeModes = {
-        IFRAME_NAV: 0,
         XHR_NO_PAYLOAD: 1,
         XHR_WITH_PAYLOAD: 2,
         XHR_OPTIONAL_PAYLOAD: 3
     },
     bridgeMode,
-    execIframe,
     execXhr,
     requestCount = 0,
     vcHeaderValue = null,
     commandQueue = [], // Contains pending JS->Native messages.
     isInContextOfEvalJs = 0;
-
-function createExecIframe() {
-    var iframe = document.createElement("iframe");
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-    return iframe;
-}
 
 function shouldBundleCommandJson() {
     if (bridgeMode == jsToNativeModes.XHR_WITH_PAYLOAD) {
@@ -900,11 +891,8 @@ function massagePayloadNativeToJs(payload) {
 }
 
 function iOSExec() {
-    // XHR mode does not work on iOS 4.2, so default to IFRAME_NAV for such devices.
-    // XHR mode's main advantage is working around a bug in -webkit-scroll, which
-    // doesn't exist in 4.X devices anyways.
     if (bridgeMode === undefined) {
-        bridgeMode = navigator.userAgent.indexOf(' 4_') == -1 ? jsToNativeModes.XHR_NO_PAYLOAD : jsToNativeModes.IFRAME_NAV;
+	   bridgeMode = jsToNativeModes.XHR_NO_PAYLOAD;
     }
 
     var successCallback, failCallback, service, action, actionArgs, splitCommand;
@@ -945,51 +933,39 @@ function iOSExec() {
     // Stringify and queue the command. We stringify to command now to
     // effectively clone the command arguments in case they are mutated before
     // the command is executed.
-    commandQueue.push(JSON.stringify(command));
+	   var command_string = JSON.stringify(command);
+	   
+	   commandQueue.push(command_string);
 
-    // If we're in the context of a stringByEvaluatingJavaScriptFromString call,
+	   // If we're in the context of a stringByEvaluatingJavaScriptFromString call,
     // then the queue will be flushed when it returns; no need for a poke.
     // Also, if there is already a command in the queue, then we've already
     // poked the native side, so there is no reason to do so again.
     if (!isInContextOfEvalJs && commandQueue.length == 1) {
-        if (bridgeMode != jsToNativeModes.IFRAME_NAV) {
-            // This prevents sending an XHR when there is already one being sent.
-            // This should happen only in rare circumstances (refer to unit tests).
-            if (execXhr && execXhr.readyState != 4) {
-                execXhr = null;
-            }
-            // Re-using the XHR improves exec() performance by about 10%.
-            execXhr = execXhr || new XMLHttpRequest();
-            // Changing this to a GET will make the XHR reach the URIProtocol on 4.2.
-            // For some reason it still doesn't work though...
-            // Add a timestamp to the query param to prevent caching.
-            execXhr.open('HEAD', "/!gap_exec?" + (+new Date()), true);
-            if (!vcHeaderValue) {
-                vcHeaderValue = /.*\((.*)\)/.exec(navigator.userAgent)[1];
-            }
-            execXhr.setRequestHeader('vc', vcHeaderValue);
-            execXhr.setRequestHeader('rc', ++requestCount);
-            if (shouldBundleCommandJson()) {
-                execXhr.setRequestHeader('cmds', iOSExec.nativeFetchMessages());
-            }
-            execXhr.send(null);
-        } else {
-            execIframe = execIframe || createExecIframe();
-            execIframe.src = "gap://ready";
-        }
+		// This prevents sending an XHR when there is already one being sent.
+		// This should happen only in rare circumstances (refer to unit tests).
+		if (execXhr && execXhr.readyState != 4) {
+			execXhr = null;
+		}
+		// Re-using the XHR improves exec() performance by about 10%.
+		execXhr = execXhr || new XMLHttpRequest();
+		// Add a timestamp to the query param to prevent caching.
+		execXhr.open('HEAD', "/!gap_exec?" + (+new Date()), true);
+		if (!vcHeaderValue) {
+			vcHeaderValue = /.*\((.*)\)/.exec(navigator.userAgent)[1];
+		}
+		execXhr.setRequestHeader('vc', vcHeaderValue);
+		execXhr.setRequestHeader('rc', ++requestCount);
+		if (shouldBundleCommandJson()) {
+			execXhr.setRequestHeader('cmds', iOSExec.nativeFetchMessages());
+		}
+		execXhr.send(null);
     }
 }
 
 iOSExec.jsToNativeModes = jsToNativeModes;
 
 iOSExec.setJsToNativeBridgeMode = function(mode) {
-    // Remove the iFrame since it may be no longer required, and its existence
-    // can trigger browser bugs.
-    // https://issues.apache.org/jira/browse/CB-593
-    if (execIframe) {
-        execIframe.parentNode.removeChild(execIframe);
-        execIframe = null;
-    }
     bridgeMode = mode;
 };
 

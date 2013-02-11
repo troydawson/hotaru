@@ -1,5 +1,36 @@
 #import "MainViewController.h"
 
+@interface KeySucker : UIResponder <UIKeyInput>
+@end
+
+@implementation KeySucker
+
+- (void) insertText: (NSString*) text
+{
+	NSLog(@"text = %@", text);
+}
+
+- (void) deleteBackward
+{
+    // Handle the delete key
+}
+
+- (BOOL) hasText
+{
+	return YES;
+
+}
+- (BOOL) canBecomeFirstResponder
+{
+    return YES;
+}
+
+@end
+
+@interface MainViewController ()
+@property (retain, nonatomic) KeySucker *keysucker;
+@end
+
 @implementation MainViewController
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
@@ -11,6 +42,9 @@
         // Uncomment to override the CDVCommandQueue used
         // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
     }
+	
+	self.keysucker = [KeySucker new];
+
     return self;
 }
 
@@ -42,6 +76,8 @@
     // you can do so here.
 
     [super viewWillAppear:animated];
+	
+	[self.keysucker becomeFirstResponder];
 }
 
 - (void)viewDidLoad
