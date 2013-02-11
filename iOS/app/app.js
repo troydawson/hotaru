@@ -49,8 +49,8 @@ var app = {
 		app.box.className = 'box';
 		app.box.style.zIndex = 0;
 		
-		for (var i = 0; i < 12; i++)
-			$('<div/>').addClass('match').css({ top: (Math.floor(i/3)*48)+'px', left: (2+(i%3)*106)+'px' }).appendTo('body')
+		for (var i = 0; i < 8; i++)
+			$('<div/>').addClass('match').css({ top: (10+Math.floor(i/2)*60)+'px', left: (3+(i%2)*160)+'px' }).appendTo('body')
 
 		document.addEventListener('touchstart', function(e) { app.touch(e) }, false);
 		document.addEventListener('touchmove', function(e) { app.touch(e) }, false);
