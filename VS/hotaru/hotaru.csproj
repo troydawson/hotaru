@@ -21,6 +21,7 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="css\app.css" />
     <Content Include="default.htm" />
     <Content Include="app\app.js">
       <DependentUpon>app.ts</DependentUpon>
@@ -30,7 +31,25 @@
     <TypeScriptCompile Include="app\app.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="def\async.d.ts" />
+    <Content Include="def\breeze.d.ts" />
+    <Content Include="def\hammerjs.d.ts" />
+    <Content Include="def\jquery.d.ts" />
+    <Content Include="def\mousetrap.d.ts" />
+    <Content Include="def\state-machine.d.ts" />
+    <Content Include="def\underscore.d.ts" />
+    <Content Include="lib\async.js" />
+    <Content Include="lib\cordova.js" />
+    <Content Include="lib\hammer.js" />
+    <Content Include="lib\jquery-1.9.1.js" />
+    <Content Include="lib\jquery.specialevent.hammer.js" />
+    <Content Include="lib\mousetrap.min.js" />
+    <Content Include="lib\state-machine.js" />
+    <Content Include="lib\underscore.js" />
     <Content Include="web.config" />
+    <Content Include="app\app.js.map">
+      <DependentUpon>app.ts</DependentUpon>
+    </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -38,10 +57,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="def\" />
-    <Folder Include="lib\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
