@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05888ED416C82E1A0036F6B5 /* app in Resources */ = {isa = PBXBuildFile; fileRef = 05888ED316C82E190036F6B5 /* app */; };
 		05888ED816C88DDF0036F6B5 /* AppCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 05888ED716C88DDF0036F6B5 /* AppCommand.m */; };
+		05924AD216CB1D3A0006D9C0 /* app in Resources */ = {isa = PBXBuildFile; fileRef = 05924AD116CB1D3A0006D9C0 /* app */; };
 		05D2964016C9D2E0004AD4A5 /* MainWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05D2963F16C9D2E0004AD4A5 /* MainWebView.m */; };
 		05D2964216C9DD97004AD4A5 /* Kanjibot Resources in Resources */ = {isa = PBXBuildFile; fileRef = 05D2964116C9DD97004AD4A5 /* Kanjibot Resources */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
@@ -61,9 +61,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		05888ED316C82E190036F6B5 /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
 		05888ED616C88DDF0036F6B5 /* AppCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCommand.h; sourceTree = "<group>"; };
 		05888ED716C88DDF0036F6B5 /* AppCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCommand.m; sourceTree = "<group>"; };
+		05924AD116CB1D3A0006D9C0 /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; name = app; path = ../Common/app; sourceTree = "<group>"; };
 		05D2963E16C9D2E0004AD4A5 /* MainWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWebView.h; sourceTree = "<group>"; };
 		05D2963F16C9D2E0004AD4A5 /* MainWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWebView.m; sourceTree = "<group>"; };
 		05D2964116C9DD97004AD4A5 /* Kanjibot Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Kanjibot Resources"; path = "../Kanjibot Resources"; sourceTree = "<group>"; };
@@ -173,9 +173,9 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				05924AD116CB1D3A0006D9C0 /* app */,
 				05D2964116C9DD97004AD4A5 /* Kanjibot Resources */,
 				05888ED516C88DA50036F6B5 /* Plugins */,
-				05888ED316C82E190036F6B5 /* app */,
 				F840E1F0165FE0F500CFE078 /* config.xml */,
 				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -348,8 +348,8 @@
 				3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */,
 				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
 				D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */,
-				05888ED416C82E1A0036F6B5 /* app in Resources */,
 				05D2964216C9DD97004AD4A5 /* Kanjibot Resources in Resources */,
+				05924AD216CB1D3A0006D9C0 /* app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
