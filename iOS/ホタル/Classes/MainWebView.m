@@ -121,11 +121,11 @@
 		self.keyboardView.view_controller = (CDVViewController*) self.viewController;
 	}
 	
-	self.inputView = self.keyboardView;
+	self.inputView = self.app.keyboardState == KeyboardOn ? self.keyboardView : nil;
 	
 	[self reloadInputViews];
 	
-    return YES;
+    return self.app.keyboardState == KeyboardOn;
 }
 
 - (BOOL) resignFirstResponder

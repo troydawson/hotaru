@@ -10,7 +10,7 @@
 - (id) initWithWebView: (UIWebView*) theWebView
 {
 	self = [super initWithWebView: theWebView];
-	self.state = KeyboardOn;
+	self.state = KeyboardOff;
 	return self;
 }
 
