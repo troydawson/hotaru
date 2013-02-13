@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="css\app.css" />
+    <Content Include="css\toastr.min.css" />
     <Content Include="default.htm" />
     <Content Include="app\app.js">
       <DependentUpon>app.ts</DependentUpon>
@@ -33,18 +34,20 @@
   <ItemGroup>
     <Content Include="def\async.d.ts" />
     <Content Include="def\breeze.d.ts" />
-    <Content Include="def\hammerjs.d.ts" />
+    <Content Include="def\iscroll.d.ts" />
     <Content Include="def\jquery.d.ts" />
     <Content Include="def\mousetrap.d.ts" />
     <Content Include="def\state-machine.d.ts" />
+    <Content Include="def\three.d.ts" />
+    <Content Include="def\toastr.d.ts" />
     <Content Include="def\underscore.d.ts" />
     <Content Include="lib\async.js" />
-    <Content Include="lib\cordova.js" />
-    <Content Include="lib\hammer.js" />
+    <Content Include="lib\iscroll.js" />
     <Content Include="lib\jquery-1.9.1.js" />
-    <Content Include="lib\jquery.specialevent.hammer.js" />
+    <Content Include="lib\jquerypp.js" />
     <Content Include="lib\mousetrap.min.js" />
     <Content Include="lib\state-machine.js" />
+    <Content Include="lib\toastr.min.js" />
     <Content Include="lib\underscore.js" />
     <Content Include="web.config" />
     <Content Include="app\app.js.map">

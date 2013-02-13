@@ -1,0 +1,58 @@
+Canvas
++ Fill
+  ? Gradient
+
+Blockboard
++ Frame
++ Fill
++ Display blocks in canvas
++ Double-tap to add to lockbox
++ Drag to lockbox
+
+Lockbox
++ Frame
++ Lock Icon
+  - Tap on icon to switch to Search box
++ Field
++ Add block
++ Drop block
++ Drag block off
++ Drag block onto other block to replace
+
+Control Bar
++ Frame
++ Mode switch
++ Clear control
++ Rotate betwen Lockbox and Search box
+
+Main Screen
++ Frame
++ Tint
++ Add block item
++ Add index item
++ Tap item to see definition popup
++ Double-tap block to add to lockbox
++ Drag & Drop block to lockbox
+ 
+Definition Popup
++ Close control
++ Definition display
++ Tap item to navigate to new definition
++ Back navigation
+
+Search Box
++ Frame
++ Field
++ Search icon
+  - Tap on icon to switch to Lockbox search
++ Cursor
++ Cancel button
+  - Tap to cancel
+  -- double-tap to switch to Lockbox search
++ Add text
++ Delete text
++ Clear button
+
++ State preservation
+
++ Database search?

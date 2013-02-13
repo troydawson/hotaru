@@ -3,3 +3,8 @@ D:\Users\troy\Projects\hotaru\VS\hotaru\bin\hotaru.pdb
 D:\Users\troy\Projects\hotaru\VS\hotaru\obj\Debug\hotaru.csprojResolveAssemblyReference.cache
 D:\Users\troy\Projects\hotaru\VS\hotaru\obj\Debug\hotaru.dll
 D:\Users\troy\Projects\hotaru\VS\hotaru\obj\Debug\hotaru.pdb
+D:\Users\troy\Projects\hotaru\VS\bin\hotaru.dll
+D:\Users\troy\Projects\hotaru\VS\bin\hotaru.pdb
+D:\Users\troy\Projects\hotaru\VS\obj\Debug\hotaru.csprojResolveAssemblyReference.cache
+D:\Users\troy\Projects\hotaru\VS\obj\Debug\hotaru.dll
+D:\Users\troy\Projects\hotaru\VS\obj\Debug\hotaru.pdb

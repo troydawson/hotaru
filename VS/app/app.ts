@@ -1,4 +1,7 @@
 /// <reference path="../def/jquery.d.ts" />
+/// <reference path="../def/mousetrap.d.ts" />
+/// <reference path="../def/toastr.d.ts" />
+
 class App {
 
 	box: HTMLDivElement;
@@ -34,36 +37,65 @@ class App {
 		$('.match').animate({ marginTop: '0px' });
 	}
 
-	deviceready() {
+	InitCanvas() {
+
+		$(document.createElement('div')).attr('id', 'app_container').appendTo('body');
 
 		var app_canvas = <HTMLCanvasElement> document.createElement('canvas');
-		
+
 		app_canvas.id = 'app_canvas';
-		
+
 		app_canvas.width = 320;  //window.innerWidth;
 		app_canvas.height = 480;  //window.innerHeight;
-		
+
 		var ctx = app_canvas.getContext('2d');
-		
+
 		ctx.fillStyle = '#DEDEC0';
-		
+
 		ctx.fillRect(0, 0, app_canvas.width, app_canvas.height);
-		
-		document.body.appendChild(app_canvas);
-		
-		this.box = <HTMLDivElement> document.createElement('div');
-		this.box.className = 'box';
-		this.box.style.zIndex = '0';
-		
-		for (var i = 0; i < 8; i++)
-			$('<div/>').addClass('match').css({ top: (10 + Math.floor(i / 2) * 60) + 'px', left: (3 + (i % 2) * 160) + 'px' }).appendTo('body');
-		
-		document.addEventListener('touchstart', (e) => this.touch(e), false);
-		document.addEventListener('touchmove', (e) => this.touch(e), false);
-		
-		document.addEventListener('mousedown', (e) => this.down(e), false);
-		document.addEventListener('mouseup', (e) => this.up(e), false);
+
+		$(app_canvas).appendTo('#app_container');
+	}
+
+	AddSwiper() {
+
+		$(document.createElement('div')).attr('id', 'swiper').appendTo('#app_container');
+
+		$('#swiper').on({
+						'swiperight': function (ev) {
+							console.log('right swipe');
+						},
+						'swipeleft': function (ev) {
+							console.log('left swipe');
+						},
+						'swipeup': function (ev) {
+							console.log('up swipe');
+						},
+						'swipedown': function (ev) {
+							console.log('down swipe');
+						}
+					});
+	}
+
+	deviceready() {
+
+		this.InitCanvas();
+
+		this.AddSwiper();
+
+	}
+
+	WindowsInit() {
+		Mousetrap.bind('4', () => { console.log('4') });
+
+		this.deviceready();
+
+		toastr.success('Windows init OK');
 	}
 }
 
-window.onload = () => new App().deviceready();
+declare var cordova;
+
+if (typeof cordova == 'undefined')
+	window.onload = () => new App().WindowsInit();
+

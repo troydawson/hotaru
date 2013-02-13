@@ -1,4 +1,6 @@
 /// <reference path="../def/jquery.d.ts" />
+/// <reference path="../def/mousetrap.d.ts" />
+/// <reference path="../def/toastr.d.ts" />
 var App = (function () {
     function App() { }
     App.prototype.command = function (action) {
@@ -34,8 +36,8 @@ var App = (function () {
             marginTop: '0px'
         });
     };
-    App.prototype.deviceready = function () {
-        var _this = this;
+    App.prototype.InitCanvas = function () {
+        $(document.createElement('div')).attr('id', 'app_container').appendTo('body');
         var app_canvas = document.createElement('canvas');
         app_canvas.id = 'app_canvas';
         app_canvas.width = 320//window.innerWidth;
@@ -45,32 +47,41 @@ var App = (function () {
         var ctx = app_canvas.getContext('2d');
         ctx.fillStyle = '#DEDEC0';
         ctx.fillRect(0, 0, app_canvas.width, app_canvas.height);
-        document.body.appendChild(app_canvas);
-        this.box = document.createElement('div');
-        this.box.className = 'box';
-        this.box.style.zIndex = '0';
-        for(var i = 0; i < 8; i++) {
-            $('<div/>').addClass('match').css({
-                top: (10 + Math.floor(i / 2) * 60) + 'px',
-                left: (3 + (i % 2) * 160) + 'px'
-            }).appendTo('body');
-        }
-        document.addEventListener('touchstart', function (e) {
-            return _this.touch(e);
-        }, false);
-        document.addEventListener('touchmove', function (e) {
-            return _this.touch(e);
-        }, false);
-        document.addEventListener('mousedown', function (e) {
-            return _this.down(e);
-        }, false);
-        document.addEventListener('mouseup', function (e) {
-            return _this.up(e);
-        }, false);
+        $(app_canvas).appendTo('#app_container');
+    };
+    App.prototype.AddSwiper = function () {
+        $(document.createElement('div')).attr('id', 'swiper').appendTo('#app_container');
+        $('#swiper').on({
+            'swiperight': function (ev) {
+                console.log('right swipe');
+            },
+            'swipeleft': function (ev) {
+                console.log('left swipe');
+            },
+            'swipeup': function (ev) {
+                console.log('up swipe');
+            },
+            'swipedown': function (ev) {
+                console.log('down swipe');
+            }
+        });
+    };
+    App.prototype.deviceready = function () {
+        this.InitCanvas();
+        this.AddSwiper();
+    };
+    App.prototype.WindowsInit = function () {
+        Mousetrap.bind('4', function () {
+            console.log('4');
+        });
+        this.deviceready();
+        toastr.success('Windows init OK');
     };
     return App;
 })();
-window.onload = function () {
-    return new App().deviceready();
-};
+if(typeof cordova == 'undefined') {
+    window.onload = function () {
+        return new App().WindowsInit();
+    };
+}
 //@ sourceMappingURL=app.js.map
