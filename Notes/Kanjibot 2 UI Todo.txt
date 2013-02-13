@@ -1,6 +1,3 @@
-Canvas
- ? Gradient
-
 Lockbox
 + Frame
 + Lock Icon
@@ -10,11 +7,12 @@ Lockbox
 + Drop block
 + Drag block off
 + Drop external block onto locked block to replace
++ Tap on blankblock to add stroke
 
 Blockboard
 + Frame
 + Fill
-? Touchstart add frame
+? Touchstart add frame around block
 + Double-tap to add to lockbox
 + Drag off to lockbox
   - dim dragee
@@ -39,7 +37,7 @@ Definition Popup
 + Close control
 + Definition display
 + Tap item to navigate to new definition
-+ Back navigation
++ Back navigati on
 
 Search Box
 + Frame
@@ -58,5 +56,9 @@ Search Box
 + Database search
 
 Maru Gothic
-+ 96px image file(s)
++ 96px image file(s) vended by native side
 + Pro/N alternate.
+
+Canvas
+ ? Gradient
+

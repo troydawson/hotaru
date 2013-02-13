@@ -11,18 +11,49 @@ declare var devicePixelRatio;
 
 //? var app;
 
-class CGPoint extends THREE.Vector2{
+class CGPoint extends THREE.Vector2 {
+	static Zero: CGPoint = new CGPoint(0, 0);
 	constructor(x?: number = 0, y?: number = 0) { super(x, y) }
+	static Make(x?: number = 0, y?: number = 0) { return new CGPoint(x, y) }
 }
-
-var CGPointZero = new CGPoint();
 
 class CGSize {
 	constructor(public width?: number = 0, public height?: number = 0) { }
+	static Make(width?: number = 0, height?: number = 0) { return new CGSize(width, height) }
+
 }
 
 class CGRect {
-	constructor(public origin?: CGPoint = CGPointZero, public size?: CGSize = new CGSize()) { }
+	constructor(public origin?: CGPoint = CGPoint.Zero, public size?: CGSize = new CGSize()) { }
+
+	static Make(x: number, y: number, width: number, height: number) { return new CGRect(CGPoint.Make(x, y), CGSize.Make(width, height)) }
+
+	inset(dx: number, dy: number) {
+		return CGRect.Make(this.origin.x + dx, this.origin.y + dy, this.size.width - dx * 2, this.size.height - dy * 2);
+	}
+
+	offset(dx: number, dy: number) {
+		return CGRect.Make(this.origin.x + dx, this.origin.y + dy, this.size.width, this.size.height);
+	}
+
+	fill(ctx: CanvasRenderingContext2D) {
+		ctx.fillRect(this.origin.x, this.origin.y, this.size.width, this.size.height);
+	}
+
+	setPath(ctx: CanvasRenderingContext2D, radius?: CGSize = CGSize.Make(0,0)) {
+		ctx.beginPath();
+		ctx.moveTo(this.origin.x + radius.width, this.origin.y);
+		ctx.lineTo(this.origin.x + this.size.width - radius.width, this.origin.y);
+		ctx.quadraticCurveTo(this.origin.x + this.size.width, this.origin.y, this.origin.x + this.size.width, this.origin.y + radius.height);
+		ctx.lineTo(this.origin.x + this.size.width, this.origin.y + this.size.height - radius.height);
+		ctx.quadraticCurveTo(this.origin.x + this.size.width, this.origin.y + this.size.height, this.origin.x + this.size.width - radius.height, this.origin.y + this.size.height);
+		ctx.lineTo(this.origin.x + radius.width, this.origin.y + this.size.height);
+		ctx.quadraticCurveTo(this.origin.x, this.origin.y + this.size.height, this.origin.x, this.origin.y + this.size.height - radius.height);
+		ctx.lineTo(this.origin.x, this.origin.y + radius.height);
+		ctx.quadraticCurveTo(this.origin.x, this.origin.y, this.origin.x + radius.width, this.origin.y);
+		ctx.closePath();
+	}
+
 }
 
 class BlockBoardElement {
@@ -43,14 +74,10 @@ class BlockBoardElement {
 
 	render(ctx: CanvasRenderingContext2D, src_image: HTMLImageElement) {
 		
-		var previous_alpha = ctx.globalAlpha;
-
 		ctx.globalAlpha = this.alpha;
 
 		ctx.drawImage(src_image, this.src_frame.origin.x, this.src_frame.origin.y, this.src_frame.size.width, this.src_frame.size.height,
 			this.dst_frame.origin.x, this.dst_frame.origin.y, this.dst_frame.size.width, this.dst_frame.size.height);
-
-		ctx.globalAlpha = previous_alpha;
 	}
 }
 
@@ -60,7 +87,7 @@ class BlockBoard {
 
 	constructor(public ctx: CanvasRenderingContext2D, public ui_image: HTMLImageElement) {
 
-	var block_ids = "0123456789";
+	var block_ids = '0123456789';
 
 	for (var i = 0; i < 10; i++)
 		this.blocks.push(new BlockBoardElement(i, block_ids.charAt(i)));
@@ -74,6 +101,44 @@ class BlockBoard {
 		}
 	}
 }
+
+class ControlBar {
+	constructor(public ctx: CanvasRenderingContext2D, public ui_image: HTMLImageElement) {
+
+		this.ctx.fillStyle = '#FFFFFF';
+		this.ctx.globalAlpha = 0.25;
+
+		CGRect.Make(6, 460 - 56 * 2-12-48, 320-12, 48).fill(this.ctx);
+	}
+}
+
+class MainScreen {
+	constructor(public ctx: CanvasRenderingContext2D) {
+
+		this.ctx.save();
+
+		this.ctx.globalAlpha = 0.05;
+		this.ctx.fillStyle = 'black';
+
+		var frame = CGRect.Make(4, 4, 320 - 8, 460-56*2-12-48-4-6);
+
+		frame.setPath(ctx, CGSize.Make(20, 20));
+
+		this.ctx.fill();
+
+		this.ctx.globalAlpha = 0.1;
+		this.ctx.lineWidth = 4;
+		this.ctx.strokeStyle = 'black';
+
+		frame = frame.inset(2, 2);
+		frame.setPath(ctx, CGSize.Make(20, 20));
+
+		this.ctx.stroke();
+
+		this.ctx.restore();
+	}
+}
+
 
 
 class App {
@@ -118,11 +183,10 @@ class App {
 
 		this.ctx.fillRect(0, 0, app_canvas.width, app_canvas.height);
 
-		$(app_canvas).appendTo('#app_container');
-
 		if (typeof devicePixelRatio != 'undefined')
 			this.ctx.scale(devicePixelRatio, devicePixelRatio);
 
+		$(app_canvas).appendTo('#app_container');
 	}
 
 	AddSwiper() {
@@ -146,10 +210,15 @@ class App {
 	}
 
 	blockboard: BlockBoard;
+	controlbar: ControlBar;
+	mainscreen: MainScreen;
 
 	CreateUI(ui_image: HTMLImageElement) {
 		this.blockboard = new BlockBoard(this.ctx, ui_image);
 		this.blockboard.render();
+
+		this.controlbar = new ControlBar(this.ctx, ui_image);
+		this.mainscreen = new MainScreen(this.ctx);
 	}
 
 	KanjibotInit() {
@@ -159,8 +228,6 @@ class App {
 		this.AddSwiper();
 
 		var ui_image = new Image();
-
-		this.ctx.globalAlpha = 0.6;
 
 		ui_image.onload = () => this.CreateUI(ui_image);
 		ui_image.onerror = () => toastr.error('not loaded!');
