@@ -84,15 +84,15 @@ var App = (function () {
         $(document.createElement('div')).attr('id', 'app_container').appendTo('body');
         var app_canvas = document.createElement('canvas');
         app_canvas.id = 'app_canvas';
-		   app_canvas.width = 640; //on_device ?  //window.innerWidth : 320;
-		   app_canvas.height = 920; //on_device ?  //window.innerHeight : 460;
-		   app_canvas.style.width = '320px';
-		   app_canvas.style.height = '460px';
+        app_canvas.width = on_device ? (window.innerWidth * devicePixelRatio) : 320;
+        app_canvas.height = on_device ? (window.innerHeight * devicePixelRatio) : 460;
         this.ctx = app_canvas.getContext('2d');
         this.ctx.fillStyle = '#DEDEC0';
         this.ctx.fillRect(0, 0, app_canvas.width, app_canvas.height);
         $(app_canvas).appendTo('#app_container');
-		   this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        if(typeof devicePixelRatio != 'undefined') {
+            this.ctx.scale(devicePixelRatio, devicePixelRatio);
+        }
     };
     App.prototype.AddSwiper = function () {
         $(document.createElement('div')).attr('id', 'swiper').appendTo('#app_container');
@@ -114,9 +114,6 @@ var App = (function () {
     App.prototype.CreateUI = function (ui_image) {
         this.blockboard = new BlockBoard(this.ctx, ui_image);
         this.blockboard.render();
-		   
-	   this.ctx.globalAlpha = 0.5;
-	   this.ctx.drawImage(ui_image, 4, 164, 40, 40, 20, 200, 20, 20);
     };
     App.prototype.KanjibotInit = function () {
         var _this = this;
@@ -124,15 +121,13 @@ var App = (function () {
         this.AddSwiper();
         var ui_image = new Image();
         this.ctx.globalAlpha = 0.6;
-        ui_image.onload = function () { 
+        ui_image.onload = function () {
             return _this.CreateUI(ui_image);
         };
         ui_image.onerror = function () {
             return toastr.error('not loaded!');
         };
         ui_image.src = 'img/ui_elements@2x.png';
-		   
-		   document.addEventListener('touchstart', function(e) { var t = e.touches[0]; toastr.info(t.pageX+', '+t.pageY) }, false);
     };
     App.prototype.WindowsInit = function () {
         Mousetrap.bind('4', function () {
@@ -144,7 +139,7 @@ var App = (function () {
 })();
 if(on_device) {
     document.addEventListener('deviceready', function () {
-							  new App().KanjibotInit(); 
+        return new App().KanjibotInit();
     }, false);
 } else {
     window.onload = function () {

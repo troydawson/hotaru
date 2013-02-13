@@ -24,12 +24,12 @@
     <Content Include="css\app.css" />
     <Content Include="css\toastr.min.css" />
     <Content Include="default.htm" />
-    <Content Include="app\app.js">
+    <Content Include="src\app.js">
       <DependentUpon>app.ts</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\app.ts" />
+    <TypeScriptCompile Include="src\app.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="def\async.d.ts" />
@@ -54,7 +54,7 @@
     <Content Include="lib\underscore.js" />
     <Content Include="lib\Vector2.js" />
     <Content Include="web.config" />
-    <Content Include="app\app.js.map">
+    <Content Include="src\app.js.map">
       <DependentUpon>app.ts</DependentUpon>
     </Content>
     <None Include="web.Debug.config">
@@ -94,7 +94,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
   </PropertyGroup>

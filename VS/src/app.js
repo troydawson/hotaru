@@ -84,12 +84,15 @@ var App = (function () {
         $(document.createElement('div')).attr('id', 'app_container').appendTo('body');
         var app_canvas = document.createElement('canvas');
         app_canvas.id = 'app_canvas';
-        app_canvas.width = on_device ? window.innerWidth : 320;
-        app_canvas.height = on_device ? window.innerHeight : 460;
+        app_canvas.width = on_device ? (window.innerWidth * devicePixelRatio) : 320;
+        app_canvas.height = on_device ? (window.innerHeight * devicePixelRatio) : 460;
         this.ctx = app_canvas.getContext('2d');
         this.ctx.fillStyle = '#DEDEC0';
         this.ctx.fillRect(0, 0, app_canvas.width, app_canvas.height);
         $(app_canvas).appendTo('#app_container');
+        if(typeof devicePixelRatio != 'undefined') {
+            this.ctx.scale(devicePixelRatio, devicePixelRatio);
+        }
     };
     App.prototype.AddSwiper = function () {
         $(document.createElement('div')).attr('id', 'swiper').appendTo('#app_container');

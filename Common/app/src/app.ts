@@ -7,6 +7,7 @@
 
 declare var cordova;
 var on_device = typeof cordova != 'undefined';
+declare var devicePixelRatio;
 
 //? var app;
 
@@ -106,9 +107,8 @@ class App {
 		var app_canvas = <HTMLCanvasElement> document.createElement('canvas');
 
 		app_canvas.id = 'app_canvas';
-
-		app_canvas.width = on_device ? window.innerWidth : 320;
-		app_canvas.height = on_device ? window.innerHeight : 460;
+		app_canvas.width = on_device ? (window.innerWidth * devicePixelRatio) : 320;
+		app_canvas.height = on_device ? (window.innerHeight * devicePixelRatio) : 460;
 
 		this.ctx = app_canvas.getContext('2d');
 
@@ -117,6 +117,10 @@ class App {
 		this.ctx.fillRect(0, 0, app_canvas.width, app_canvas.height);
 
 		$(app_canvas).appendTo('#app_container');
+
+		if (typeof devicePixelRatio != 'undefined')
+			this.ctx.scale(devicePixelRatio, devicePixelRatio);
+
 	}
 
 	AddSwiper() {
