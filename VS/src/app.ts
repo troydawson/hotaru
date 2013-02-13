@@ -109,6 +109,8 @@ class App {
 		app_canvas.id = 'app_canvas';
 		app_canvas.width = on_device ? (window.innerWidth * devicePixelRatio) : 320;
 		app_canvas.height = on_device ? (window.innerHeight * devicePixelRatio) : 460;
+		app_canvas.style.width = on_device ? window.innerWidth + 'px' : '320px';
+		app_canvas.style.height = on_device ? window.innerHeight + 'px' : '460px';
 
 		this.ctx = app_canvas.getContext('2d');
 
