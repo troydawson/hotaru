@@ -1,40 +1,21 @@
+/// <reference path="../def/underscore.d.ts" />
+/// <reference path="../def/state-machine.d.ts" />
 /// <reference path="../def/jquery.d.ts" />
 /// <reference path="../def/mousetrap.d.ts" />
 /// <reference path="../def/toastr.d.ts" />
+//? var app;
 var App = (function () {
-    function App() { }
+    function App() {
+        //?		app = this;
+            }
     App.prototype.command = function (action) {
         //		cordova.exec(null, function (e) { alert(e.toString) }, 'App Command', 'command', [action]);
             };
     App.prototype.touch = function (e) {
-        if(this.box.style.zIndex == '0') {
-            $(this.box).css({
-                zIndex: 1,
-                backgroundColor: '#FF00FF'
-            }).appendTo('body');
-        }
-        if(typeof e === 'undefined') {
-            return;
-        }
-        var touch = e.touches[0];
-        this.box.style.left = touch.pageX + 'px';
-        this.box.style.top = touch.pageY + 'px';
-        if(touch.pageY < 200) {
-            this.command({
-                action: 'keyboard',
-                value: 'off'
-            });
-        }
     };
     App.prototype.down = function (e) {
-        $('.match').animate({
-            marginTop: '100px'
-        });
     };
     App.prototype.up = function (e) {
-        $('.match').animate({
-            marginTop: '0px'
-        });
     };
     App.prototype.InitCanvas = function () {
         $(document.createElement('div')).attr('id', 'app_container').appendTo('body');
@@ -66,7 +47,7 @@ var App = (function () {
             }
         });
     };
-    App.prototype.deviceready = function () {
+    App.prototype.KanjibotInit = function () {
         this.InitCanvas();
         this.AddSwiper();
     };
@@ -74,12 +55,16 @@ var App = (function () {
         Mousetrap.bind('4', function () {
             console.log('4');
         });
-        this.deviceready();
+        this.KanjibotInit();
         toastr.success('Windows init OK');
     };
     return App;
 })();
-if(typeof cordova == 'undefined') {
+if(typeof cordova != 'undefined') {
+    document.addEventListener('deviceready', function () {
+        return new App().KanjibotInit();
+    }, false);
+} else {
     window.onload = function () {
         return new App().WindowsInit();
     };

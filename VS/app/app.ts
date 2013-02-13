@@ -1,10 +1,16 @@
+/// <reference path="../def/underscore.d.ts" />
+/// <reference path="../def/state-machine.d.ts" />
 /// <reference path="../def/jquery.d.ts" />
 /// <reference path="../def/mousetrap.d.ts" />
 /// <reference path="../def/toastr.d.ts" />
 
+//? var app;
+
 class App {
 
-	box: HTMLDivElement;
+	constructor() {
+//?		app = this;
+	}
 
 	command(action: Object) {
 //		cordova.exec(null, function (e) { alert(e.toString) }, 'App Command', 'command', [action]);
@@ -12,29 +18,14 @@ class App {
 
 	touch(e: any) {
 
-		if (this.box.style.zIndex == '0') {
-			$(this.box).css({ zIndex: 1, backgroundColor: '#FF00FF' }).appendTo('body');
-		}
-
-		if (typeof e === 'undefined')
-			return;
-
-		var touch = e.touches[0];
-
-		this.box.style.left = touch.pageX + 'px';
-		this.box.style.top = touch.pageY + 'px';
-
-		if (touch.pageY < 200) this.command({ action: 'keyboard', value: 'off' });
 	}
 
 	down(e: any) {
 
-		$('.match').animate({ marginTop: '100px' });
 	}
 
 	up(e:any) {
 
-		$('.match').animate({ marginTop: '0px' });
 	}
 
 	InitCanvas() {
@@ -77,7 +68,7 @@ class App {
 					});
 	}
 
-	deviceready() {
+	KanjibotInit() {
 
 		this.InitCanvas();
 
@@ -88,7 +79,7 @@ class App {
 	WindowsInit() {
 		Mousetrap.bind('4', () => { console.log('4') });
 
-		this.deviceready();
+		this.KanjibotInit();
 
 		toastr.success('Windows init OK');
 	}
@@ -96,6 +87,8 @@ class App {
 
 declare var cordova;
 
-if (typeof cordova == 'undefined')
+if (typeof cordova != 'undefined')
+	document.addEventListener('deviceready', () => new App().KanjibotInit(), false);
+else
 	window.onload = () => new App().WindowsInit();
 
