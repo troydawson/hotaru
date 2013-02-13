@@ -41,14 +41,18 @@
     <Content Include="def\three.d.ts" />
     <Content Include="def\toastr.d.ts" />
     <Content Include="def\underscore.d.ts" />
+    <Content Include="img\ui_elements%402x.png" />
     <Content Include="lib\async.js" />
     <Content Include="lib\iscroll.js" />
     <Content Include="lib\jquery-1.9.1.js" />
     <Content Include="lib\jquerypp.js" />
+    <Content Include="lib\Math.js" />
     <Content Include="lib\mousetrap.min.js" />
     <Content Include="lib\state-machine.js" />
+    <Content Include="lib\Three.js" />
     <Content Include="lib\toastr.min.js" />
     <Content Include="lib\underscore.js" />
+    <Content Include="lib\Vector2.js" />
     <Content Include="web.config" />
     <Content Include="app\app.js.map">
       <DependentUpon>app.ts</DependentUpon>
