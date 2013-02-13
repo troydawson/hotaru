@@ -1,35 +1,36 @@
 Canvas
-+ Fill
-  ? Gradient
-
-Blockboard
-+ Frame
-+ Fill
-+ Display blocks in canvas
-+ Double-tap to add to lockbox
-+ Drag to lockbox
+ ? Gradient
 
 Lockbox
 + Frame
 + Lock Icon
-  - Tap on icon to switch to Search box
 + Field
+  - Tap in field to switch to Search box
 + Add block
 + Drop block
 + Drag block off
-+ Drag block onto other block to replace
++ Drop external block onto locked block to replace
+
+Blockboard
++ Frame
++ Fill
+? Touchstart add frame
++ Double-tap to add to lockbox
++ Drag off to lockbox
+  - dim dragee
+  - restore state after drag ends
 
 Control Bar
 + Frame
 + Mode switch
 + Clear control
-+ Rotate betwen Lockbox and Search box
++ Rotate between Lockbox and Search box
 
 Main Screen
 + Frame
 + Tint
-+ Add block item
-+ Add index item
++ Add block item(s)
++ Add index item(s)
 + Tap item to see definition popup
 + Double-tap block to add to lockbox
 + Drag & Drop block to lockbox
@@ -44,7 +45,6 @@ Search Box
 + Frame
 + Field
 + Search icon
-  - Tap on icon to switch to Lockbox search
 + Cursor
 + Cancel button
   - Tap to cancel
@@ -55,4 +55,8 @@ Search Box
 
 + State preservation
 
-+ Database search?
++ Database search
+
+Maru Gothic
++ 96px image file(s)
++ Pro/N alternate.
