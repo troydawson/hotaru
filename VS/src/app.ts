@@ -9,6 +9,9 @@ declare var cordova;
 var on_device = typeof cordova != 'undefined';
 declare var devicePixelRatio;
 
+if (typeof devicePixelRatio == 'undefined')
+	devicePixelRatio = 1.0;
+
 //? var app;
 
 class CGPoint extends THREE.Vector2 {
@@ -113,17 +116,16 @@ class ControlBar {
 }
 
 class MainScreen {
-	constructor(public ctx: CanvasRenderingContext2D) {
+	constructor(public ctx: CanvasRenderingContext2D, vertical_sizing: number) {
 
 		this.ctx.save();
 
-		this.ctx.globalAlpha = 0.05;
-		this.ctx.fillStyle = 'black';
-
-		var frame = CGRect.Make(4, 4, 320 - 8, 460-56*2-12-48-4-6);
+		var frame = CGRect.Make(4, 4, 320 - 8, vertical_sizing - 4);
 
 		frame.setPath(ctx, CGSize.Make(20, 20));
 
+		this.ctx.globalAlpha = 0.05;
+		this.ctx.fillStyle = 'black';
 		this.ctx.fill();
 
 		this.ctx.globalAlpha = 0.1;
@@ -165,17 +167,23 @@ class App {
 
 	ctx: CanvasRenderingContext2D;
 
+	display_size: CGSize = new CGSize();
+
 	InitCanvas() {
+
+		this.display_size = on_device ? CGSize.Make(window.innerWidth, window.innerHeight) : CGSize.Make(320, 460);
 
 		$(document.createElement('div')).attr('id', 'app_container').appendTo('body');
 
 		var app_canvas = <HTMLCanvasElement> document.createElement('canvas');
 
 		app_canvas.id = 'app_canvas';
-		app_canvas.width = on_device ? (window.innerWidth * devicePixelRatio) : 320;
-		app_canvas.height = on_device ? (window.innerHeight * devicePixelRatio) : 460;
-		app_canvas.style.width = on_device ? window.innerWidth + 'px' : '320px';
-		app_canvas.style.height = on_device ? window.innerHeight + 'px' : '460px';
+
+		app_canvas.width = this.display_size.width * devicePixelRatio;
+		app_canvas.height = this.display_size.height * devicePixelRatio;
+
+		app_canvas.style.width = this.display_size.width + 'px';
+		app_canvas.style.height = this.display_size.height + 'px';
 
 		this.ctx = app_canvas.getContext('2d');
 
@@ -183,7 +191,7 @@ class App {
 
 		this.ctx.fillRect(0, 0, app_canvas.width, app_canvas.height);
 
-		if (typeof devicePixelRatio != 'undefined')
+		if (devicePixelRatio !== 1.0)
 			this.ctx.scale(devicePixelRatio, devicePixelRatio);
 
 		$(app_canvas).appendTo('#app_container');
@@ -195,16 +203,16 @@ class App {
 
 		$('#swiper').on({
 						'swiperight': function (ev) {
-							console.log('right swipe');
+							toastr.info('right');
 						},
 						'swipeleft': function (ev) {
-							console.log('left swipe');
+							toastr.info('left');
 						},
 						'swipeup': function (ev) {
-							console.log('up swipe');
+							toastr.info('up');
 						},
 						'swipedown': function (ev) {
-							console.log('down swipe');
+							toastr.info('down');
 						}
 					});
 	}
@@ -217,8 +225,7 @@ class App {
 		this.blockboard = new BlockBoard(this.ctx, ui_image);
 		this.blockboard.render();
 
-		this.controlbar = new ControlBar(this.ctx, ui_image);
-		this.mainscreen = new MainScreen(this.ctx);
+		this.mainscreen = new MainScreen(this.ctx, this.display_size.height - 116 - 6);
 	}
 
 	KanjibotInit() {

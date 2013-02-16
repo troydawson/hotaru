@@ -4,6 +4,9 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var on_device = typeof cordova != 'undefined';
+if(typeof devicePixelRatio == 'undefined') {
+    devicePixelRatio = 1.0;
+}
 //? var app;
 var CGPoint = (function (_super) {
     __extends(CGPoint, _super);
@@ -112,13 +115,13 @@ var ControlBar = (function () {
     return ControlBar;
 })();
 var MainScreen = (function () {
-    function MainScreen(ctx) {
+    function MainScreen(ctx, vertical_sizing) {
         this.ctx = ctx;
         this.ctx.save();
+        var frame = CGRect.Make(4, 4, 320 - 8, vertical_sizing - 4);
+        frame.setPath(ctx, CGSize.Make(20, 20));
         this.ctx.globalAlpha = 0.05;
         this.ctx.fillStyle = 'black';
-        var frame = CGRect.Make(4, 4, 320 - 8, 460 - 56 * 2 - 12 - 48 - 4 - 6);
-        frame.setPath(ctx, CGSize.Make(20, 20));
         this.ctx.fill();
         this.ctx.globalAlpha = 0.1;
         this.ctx.lineWidth = 4;
@@ -132,6 +135,7 @@ var MainScreen = (function () {
 })();
 var App = (function () {
     function App() {
+        this.display_size = new CGSize();
         //?		app = this;
             }
     App.prototype.command = function (action) {
@@ -144,17 +148,18 @@ var App = (function () {
     App.prototype.up = function (e) {
     };
     App.prototype.InitCanvas = function () {
+        this.display_size = on_device ? CGSize.Make(window.innerWidth, window.innerHeight) : CGSize.Make(320, 460);
         $(document.createElement('div')).attr('id', 'app_container').appendTo('body');
         var app_canvas = document.createElement('canvas');
         app_canvas.id = 'app_canvas';
-        app_canvas.width = on_device ? (window.innerWidth * devicePixelRatio) : 320;
-        app_canvas.height = on_device ? (window.innerHeight * devicePixelRatio) : 460;
-        app_canvas.style.width = on_device ? window.innerWidth + 'px' : '320px';
-        app_canvas.style.height = on_device ? window.innerHeight + 'px' : '460px';
+        app_canvas.width = this.display_size.width * devicePixelRatio;
+        app_canvas.height = this.display_size.height * devicePixelRatio;
+        app_canvas.style.width = this.display_size.width + 'px';
+        app_canvas.style.height = this.display_size.height + 'px';
         this.ctx = app_canvas.getContext('2d');
         this.ctx.fillStyle = '#DEDEC0';
         this.ctx.fillRect(0, 0, app_canvas.width, app_canvas.height);
-        if(typeof devicePixelRatio != 'undefined') {
+        if(devicePixelRatio !== 1.0) {
             this.ctx.scale(devicePixelRatio, devicePixelRatio);
         }
         $(app_canvas).appendTo('#app_container');
@@ -163,24 +168,23 @@ var App = (function () {
         $(document.createElement('div')).attr('id', 'swiper').appendTo('#app_container');
         $('#swiper').on({
             'swiperight': function (ev) {
-                console.log('right swipe');
+                toastr.info('right');
             },
             'swipeleft': function (ev) {
-                console.log('left swipe');
+                toastr.info('left');
             },
             'swipeup': function (ev) {
-                console.log('up swipe');
+                toastr.info('up');
             },
             'swipedown': function (ev) {
-                console.log('down swipe');
+                toastr.info('down');
             }
         });
     };
     App.prototype.CreateUI = function (ui_image) {
         this.blockboard = new BlockBoard(this.ctx, ui_image);
         this.blockboard.render();
-        this.controlbar = new ControlBar(this.ctx, ui_image);
-        this.mainscreen = new MainScreen(this.ctx);
+        this.mainscreen = new MainScreen(this.ctx, this.display_size.height - 116 - 6);
     };
     App.prototype.KanjibotInit = function () {
         var _this = this;
