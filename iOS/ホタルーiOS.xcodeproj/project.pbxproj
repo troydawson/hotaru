@@ -173,11 +173,11 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
 				05924AD116CB1D3A0006D9C0 /* app */,
 				05D2964116C9DD97004AD4A5 /* Kanjibot Resources */,
 				05888ED516C88DA50036F6B5 /* Plugins */,
 				F840E1F0165FE0F500CFE078 /* config.xml */,
-				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,

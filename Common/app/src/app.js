@@ -135,7 +135,7 @@ var App = (function () {
         //?		app = this;
             }
     App.prototype.command = function (action) {
-        //		cordova.exec(null, function (e) { alert(e.toString) }, 'App Command', 'command', [action]);
+        		cordova.exec(null, function (e) {  }, 'App Command', 'command', [action]);
             };
     App.prototype.touch = function (e) {
     };
@@ -194,6 +194,9 @@ var App = (function () {
             return toastr.error('not loaded!');
         };
         ui_image.src = 'img/ui_elements@2x.png';
+		   
+		if (on_device)
+		   app.command('jello');
     };
     App.prototype.WindowsInit = function () {
         Mousetrap.bind('4', function () {
