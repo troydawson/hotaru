@@ -4,3 +4,4 @@ Common\app\src\app.js
 .DS_Store
 .DS_Store?
 ._*
+.xcuserstate
